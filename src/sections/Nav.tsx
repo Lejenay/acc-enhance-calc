@@ -4,7 +4,7 @@ import { faGem, faChartLine, faNoteSticky, faShieldHalved } from "@fortawesome/f
 
 const Nav = () => {
   return (
-    <header className="w-1/5 min-h-screen px-10 py-10 border-r-[1px] border-slate-200">
+    <header className="basis-1/5 px-10 py-10 border-r-[1px] border-slate-200">
       <Link to="/" >
         <div className="flex justify-start items-center gap-6">
           <img src="../src/assets/icons/mika.webp" alt="site icon" />
@@ -15,7 +15,7 @@ const Nav = () => {
       </Link>
       <nav>
         <ul className="flex flex-col items-start gap-4">
-          <li className="font-Kiaro text-xl text-slate-900 font-bold mt-[4rem]
+          <li className="font-Kiaro text-xl text-slate-700 font-bold mt-[4rem]
                   hover:text-teal-600 hover:duration-300">
             <Link to="/" >
               <FontAwesomeIcon icon={faGem} />
@@ -23,7 +23,7 @@ const Nav = () => {
             </Link>
           </li>
 
-          <li className="font-Kiaro text-xl text-slate-900 font-bold mt-6
+          <li className="font-Kiaro text-xl text-slate-700 font-bold mt-6
                   hover:text-teal-600 hover:duration-300">
             <Link to="#analyze" >
               <FontAwesomeIcon icon={faChartLine} />
@@ -31,7 +31,7 @@ const Nav = () => {
             </Link>
           </li>
 
-          <li className="font-Kiaro text-xl text-slate-900 font-bold mt-6
+          <li className="font-Kiaro text-xl text-slate-700 font-bold mt-6
                   hover:text-teal-600 hover:duration-300">
             <Link to="#updateLog" >
               <FontAwesomeIcon icon={faNoteSticky} />
@@ -39,7 +39,7 @@ const Nav = () => {
             </Link>
           </li>
 
-          <li className="font-Kiaro text-xl text-slate-900 font-bold mt-6
+          <li className="font-Kiaro text-xl text-slate-700 font-bold mt-6
                   hover:text-teal-600 hover:duration-300">
             <Link to="#privacy" >
               <FontAwesomeIcon icon={faShieldHalved} />
