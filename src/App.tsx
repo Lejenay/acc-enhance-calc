@@ -1,11 +1,12 @@
 import "./App.css"
-import { Nav } from "./sections"
+import { Nav, CalcSection } from "./sections"
 
 function App() {
   return (
     <main className="flex flex-1">
       <Nav />
       <section className="w-ful">
+        <CalcSection />
       </section>
     </main>
   )
