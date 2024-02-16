@@ -4,12 +4,12 @@ import { faGem, faChartLine, faNoteSticky, faShieldHalved } from "@fortawesome/f
 
 const Nav = () => {
   return (
-    <header className="basis-1/5 px-10 py-10 border-r-[1px] border-slate-200">
+    <header className="basis-1/4 px-10 py-10 border-r-[1px] border-slate-200">
       <Link to="/" >
         <div className="flex justify-start items-center gap-6">
           <img src="../src/assets/icons/mika.webp" alt="site icon" />
-          <h1 className="font-Kiaro text-2xl font-bold">
-            アクセ期待値計算機
+          <h1 className="font-Kiaro text-xl font-bold">
+            アクセ錬金シミュレーター
           </h1>
         </div>
       </Link>
@@ -25,9 +25,12 @@ const Nav = () => {
 
           <li className="font-Kiaro text-xl text-slate-700 font-bold mt-6
                   hover:text-teal-600 hover:duration-300">
-            <Link to="#analyze" >
+            <Link to="#calc-method" >
               <FontAwesomeIcon icon={faChartLine} />
-              <span className="ml-4">分析</span>
+              <span className="ml-4">
+                <span className=" text-red-600">[重要] </span>
+                計算方法
+              </span>
             </Link>
           </li>
 
