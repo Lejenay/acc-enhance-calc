@@ -1,5 +1,4 @@
-import { enhanceScreen } from '../assets/images'
-import { MyCombobox, MyDropdown } from '../components'
+import { EnhanceInfo, MyCombobox, MyDropdown } from "../components"
 
 const enhanceLevel = [
   { id: 0, name: 'ベース' },
@@ -40,25 +39,13 @@ const CalcSection = () => {
             </div>
           </div>
 
-
+          <div className="flex-col mx-5 my-5">
+            <EnhanceInfo />
+          </div>
         </div>
         <div className="border-l-[1px] px-[50px] w-full">
-          <div className="bg-slate-800 rounded-xl shadow-md h-3/4">
-            <div className="relative mx-5 p-4">
-              <img src={enhanceScreen} alt="enhance screen" className="w-full" />
-              <span className="absolute top-[52%] left-[43%] text-white text-2xl font-bold font-OpenSans">
-                12.25%
-              </span>
-            </div>
-          </div>
 
-          <div>
-
-          </div>
         </div>
-      </div>
-      <div>
-
       </div>
     </section>
   )

@@ -4,8 +4,8 @@ module.exports = {
     extend: {
       fontFamily: {
         OpenSans: ["Open Sans", "sans-serif"],
-        NotoSans: ["Noto Sans", "sans-serif"],
-        Kiaro: ["fot-chiaro-std", "sans-serif"],
+        NotoSans: ["Noto Sans", "Open Sans", "sans-serif"],
+        Kiaro: ["fot-chiaro-std", "Open Sans", "sans-serif"],
       },
     },
   },

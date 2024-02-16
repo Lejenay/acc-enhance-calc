@@ -14,16 +14,16 @@ interface MyDropdownProps {
 }
 
 const MyDropdown: React.FC<MyDropdownProps> = ({ options, width }) => {
-  const [selectedOption, setSelectedOption] = useState<string>(options[0].name)
+  const [selectedOption, setSelectedOption] = useState<Object>(options[0])
 
   return (
     <Menu>
 
       <Menu.Button className={`flex justify-center rounded-md bg-white
-      px-4 py-[14px] shadow-md ${width ? width : "w-30"}
-      focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75
-      `}>
-        {selectedOption}
+        px-4 py-[14px] shadow-md ${width ? width : "w-30"}
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75
+        `}>
+        {(selectedOption as Options).name}
         <ChevronDownIcon
           className="-mr-1 ml-2 h-5 w-5 text-teal-700 hover:text-slate-600"
           aria-hidden="true" />
@@ -41,7 +41,7 @@ const MyDropdown: React.FC<MyDropdownProps> = ({ options, width }) => {
               <Menu.Item key={option.id}>
                 {({ active }) => (
                   <button
-                    onClick={() => setSelectedOption(option.name)}
+                    onClick={() => setSelectedOption(option)}
                     className={`${active ? 'bg-teal-600 text-white' : 'text-gray-900'
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
                     {option.name}
@@ -54,6 +54,7 @@ const MyDropdown: React.FC<MyDropdownProps> = ({ options, width }) => {
       </Transition>
 
     </Menu>
+
   )
 }
 
