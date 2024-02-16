@@ -2,26 +2,24 @@ import { Combobox, Transition } from "@headlessui/react"
 import { Fragment, useState } from "react"
 import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
-interface Item {
+interface Options {
   id: number
   name: string
 }
 
-const items: Item[] = [
-  { id: 1, name: '三日月守護者のリング' },
-  { id: 2, name: 'デヴォレカイヤリング' },
-  { id: 3, name: 'ツングラドのネックレス' },
-]
+interface MyComboboxProps {
+  options: Options[]
+}
 
-const MyCombobox = () => {
-  const [selectedItem, setSelectedItem] = useState<string>(items[0].name)
+const MyCombobox: React.FC<MyComboboxProps> = ({ options }) => {
+  const [selectedOption, setSelectedOption] = useState<string>(options[0].name)
   const [query, setQuery] = useState<string>("")
 
-  const filteredItems =
+  const filteredOptions =
     query === ''
-      ? items
-      : items.filter((item) =>
-        item.name
+      ? options
+      : options.filter((option) =>
+        option.name
           .toLowerCase()
           .replace(/\s+/g, '')
           .includes(query.toLowerCase().replace(/\s+/g, ''))
@@ -29,13 +27,15 @@ const MyCombobox = () => {
 
   return (
     <div>
-      <Combobox value={selectedItem} onChange={setSelectedItem} >
+
+      <Combobox value={selectedOption} onChange={setSelectedOption}>
         <div className="relative m-3 font-NotoSans">
           <div className="relative w-full cursor-default overflow-hidden rounded-md
            bg-white text-left px-3 py-2 shadow-md 
            focus:border-2 focus-visible:ring-2 focus-visible:teal-500">
 
-            <Combobox.Input onChange={(e) => setQuery(e.target.value)}
+            <Combobox.Input onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setQuery(e.target.value)}
               className="bg-white w-full border-none py-2 pl-3 pr-10 text-sm 
               leading-5 text-gray-900 
               focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"/>
@@ -59,22 +59,22 @@ const MyCombobox = () => {
             rounded-md bg-white px-1 py-1  text-base shadow-lg ring-1 ring-black/5 
             focus:outline-none sm:text-sm">
               {
-                filteredItems.length === 0 && query !== '' ? (
+                filteredOptions.length === 0 && query !== '' ? (
                   <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                     何も見つかりませんでした
                   </div>
                 ) : (
-                  filteredItems.map((item) => (
-                    <Combobox.Option key={item.id} value={item.name} as={Fragment}>
+                  filteredOptions.map((option) => (
+                    <Combobox.Option key={option.id} value={option.name} as={Fragment}>
                       {({ active }) => (
-                        <li className={`${active ? " bg-slate-50" : "bg-white"} 
+                        <li className={`${active ? " bg-teal-50" : "bg-white"} 
                     px-2 py-2`}
                         >
                           <span className={`${active
                             ? "text-black"
                             : "text-slate-800"}
                           `}>
-                            {item.name}
+                            {option.name}
                           </span>
                         </li>
                       )}
