@@ -1,7 +1,41 @@
 import React from "react"
 import { useState, useContext } from "react"
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faCubesStacked,
+  faSackDollar,
+  faDice, faGavel,
+  faCoins,
+  faCircleNotch
+} from "@fortawesome/free-solid-svg-icons"
+
+import { SelectedOptionContext } from "../contexts/SelectedOptionContext"
+
+interface cronsRequired {
+  id: number
+  amount: number
+}
+
+const testYellowCronRequired: cronsRequired[] = [
+  { id: 1, amount: 24 },
+  { id: 2, amount: 74 },
+  { id: 3, amount: 224 },
+  { id: 4, amount: 625 },
+  { id: 5, amount: 2999 },
+]
+
+const deboCronRequired: cronsRequired[] = [
+  { id: 1, amount: 95 },
+  { id: 2, amount: 288 },
+  { id: 3, amount: 865 },
+  { id: 4, amount: 2405 },
+  { id: 5, amount: 11548 },
+]
+
 const EnhanceInfo = () => {
+
+  const {selectedOption} = useContext(SelectedOptionContext);
 
   const [inputFS, setInputFS] = useState<number>(100)
   const [warning, setWarning] = useState<string>("")
@@ -19,6 +53,11 @@ const EnhanceInfo = () => {
     }
   }
 
+  const getCronAmountById = (enhanceLevel: number) => {
+    const cronAmount = testYellowCronRequired.find(cron => cron.id === enhanceLevel)
+    return cronAmount?.amount
+  }
+
   return (
     <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 font-NotoSans">
 
@@ -27,6 +66,7 @@ const EnhanceInfo = () => {
         <div className="flex items-center space-x-4 rtl:space-x-reverse">
           <div className="flex-shrink-0">
           </div>
+          <FontAwesomeIcon icon={faCubesStacked} />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
               スタック ( カスタム可能 )
@@ -56,6 +96,7 @@ const EnhanceInfo = () => {
         <div className="flex items-center space-x-4 rtl:space-x-reverse">
           <div className="flex-shrink-0">
           </div>
+          <FontAwesomeIcon icon={faSackDollar} />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
               期待値 ( 収益 )
@@ -75,6 +116,7 @@ const EnhanceInfo = () => {
         <div className="flex items-center space-x-4 rtl:space-x-reverse">
           <div className="flex-shrink-0">
           </div>
+          <FontAwesomeIcon icon={faDice} />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
               成功確率
@@ -94,6 +136,7 @@ const EnhanceInfo = () => {
         <div className="flex items-center space-x-4 rtl:space-x-reverse">
           <div className="flex-shrink-0">
           </div>
+          <FontAwesomeIcon icon={faGavel} />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
               平均試行回数
@@ -113,6 +156,7 @@ const EnhanceInfo = () => {
         <div className="flex items-center space-x-4 rtl:space-x-reverse">
           <div className="flex-shrink-0">
           </div>
+          <FontAwesomeIcon icon={faCoins} />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
               推定スタック費用
@@ -132,6 +176,11 @@ const EnhanceInfo = () => {
         <div className="flex items-center space-x-4 rtl:space-x-reverse">
           <div className="flex-shrink-0">
           </div>
+
+          <div className="rotate-45">
+            <FontAwesomeIcon icon={faCircleNotch} />
+          </div>
+
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
               クロン石 必要個数
@@ -141,7 +190,7 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            3670
+            {getCronAmountById(selectedOption.id)}
           </div>
         </div>
       </li>

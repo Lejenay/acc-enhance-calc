@@ -1,9 +1,11 @@
-import { useState, Fragment } from "react"
+import { useContext, Fragment } from "react"
 
 import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 
-interface Options {
+import { SelectedOptionContext } from "../contexts/SelectedOptionContext"
+
+export interface Options {
   id: number
   name: string
 }
@@ -14,7 +16,8 @@ interface MyDropdownProps {
 }
 
 const MyDropdown: React.FC<MyDropdownProps> = ({ options, width }) => {
-  const [selectedOption, setSelectedOption] = useState<Object>(options[0])
+
+  const { selectedOption, setSelectedOption } = useContext(SelectedOptionContext);
 
   return (
     <Menu>

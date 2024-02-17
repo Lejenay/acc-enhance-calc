@@ -1,7 +1,9 @@
 import { EnhanceInfo, MyCombobox, MyDropdown } from "../components"
+import { Options } from "../components/MyDropdown"
+import { useState } from "react"
+import { SelectedOptionContext } from "../contexts/SelectedOptionContext"
 
 const enhanceLevel = [
-  { id: 0, name: 'ベース' },
   { id: 1, name: '真Ⅰ' },
   { id: 2, name: '真Ⅱ' },
   { id: 3, name: '真Ⅲ' },
@@ -17,37 +19,41 @@ const items = [
 ]
 
 const CalcSection = () => {
+  const [selectedOption, setSelectedOption] = useState<Options>(enhanceLevel[0]);
+
   return (
-    <section className="flex-grow">
-      <div className="flex items-center w-full h-12 text-left mx-10 my-10">
-        <h1 className="text-2xl font-OpenSans font-bold text-slate-700">
-          Expected Value <span className="text-teal-600">Calculator</span>
-        </h1>
-      </div>
-      <div className="flex justify-center h-screen mt-15">
-        <div className="w-full h-3/4 max-w-lg bg-slate-50 mx-[50px]
+    <SelectedOptionContext.Provider value={{ selectedOption, setSelectedOption }}>
+      <section className="flex-grow">
+        <div className="flex items-center w-full h-12 text-left mx-10 my-10">
+          <h1 className="text-2xl font-OpenSans font-bold text-slate-700">
+            Expected Value <span className="text-teal-600">Calculator</span>
+          </h1>
+        </div>
+        <div className="flex justify-center h-screen mt-15">
+          <div className="w-full h-3/4 max-w-lg bg-slate-50 mx-[50px]
         shadow-md rounded-2xl" >
-          <div className="font-NotoSans text-md text-slate-700 text-center mt-3">
-            アクセサリーと強化段階を選択
-          </div>
-          <div className="flex mx-10 gap-3 justify-center items-center">
-            <div className="flex-grow">
-              <MyCombobox options={items} />
+            <div className="font-NotoSans text-md text-slate-700 text-center mt-3">
+              アクセサリーと強化段階を選択
             </div>
-            <div className="flex-grow">
-              <MyDropdown options={enhanceLevel} />
+            <div className="flex mx-10 gap-3 justify-center items-center">
+              <div className="flex-grow">
+                <MyCombobox options={items} />
+              </div>
+              <div className="flex-grow">
+                <MyDropdown options={enhanceLevel} />
+              </div>
             </div>
-          </div>
 
-          <div className="flex-col mx-5 my-5">
-            <EnhanceInfo />
+            <div className="flex-col mx-5 my-5">
+              <EnhanceInfo />
+            </div>
+          </div>
+          <div className="border-l-[1px] px-[50px] w-full">
+
           </div>
         </div>
-        <div className="border-l-[1px] px-[50px] w-full">
-
-        </div>
-      </div>
-    </section>
+      </section>
+    </SelectedOptionContext.Provider>
   )
 }
 
