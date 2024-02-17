@@ -1,0 +1,4 @@
+{
+  "watch": ["*.mjs"],
+  "ignore": ["node_modules", "*.log"]
+}

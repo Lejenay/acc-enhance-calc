@@ -1,19 +1,24 @@
-import { Combobox, Transition } from "@headlessui/react"
-import { Fragment, useState } from "react"
+import { Fragment, useContext, useState } from "react"
+
+import { Combobox } from "@headlessui/react"
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
-interface Options {
+import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
+
+export interface OptionsCb {
   id: number
   name: string
 }
 
 interface MyComboboxProps {
-  options: Options[],
+  options: OptionsCb[],
   width?: string
 }
 
 const MyCombobox: React.FC<MyComboboxProps> = ({ options, width }) => {
-  const [selectedOption, setSelectedOption] = useState<string>(options[0].name)
+  // const [selectedOption, setSelectedOption] = useState<string>(options[0].name)
+  const { selectedCbOption, setSelectedCbOption } = useContext(SelectedCbOptionContext)
+
   const [query, setQuery] = useState<string>("")
 
   const filteredOptions =
@@ -28,8 +33,8 @@ const MyCombobox: React.FC<MyComboboxProps> = ({ options, width }) => {
 
   return (
     <div>
-
-      <Combobox value={selectedOption} onChange={setSelectedOption}>
+      {/* @ts-ignore I'm sorry...*/}
+      <Combobox value={selectedCbOption.name} onChange={setSelectedCbOption}>
         <div className="relative m-3 font-NotoSans">
           <div className={`relative ${width ? width : "w-full"} cursor-default overflow-hidden rounded-md
            bg-white text-left px-3 py-2 shadow-md 
@@ -51,35 +56,27 @@ const MyCombobox: React.FC<MyComboboxProps> = ({ options, width }) => {
 
           </div>
 
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-            afterLeave={() => setQuery('')}
-          >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto 
+          <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto 
             rounded-md bg-white px-1 py-1 text-base shadow-lg ring-1 ring-black/5 
             focus:outline-none sm:text-sm">
-              {
-                filteredOptions.length === 0 && query !== '' ? (
-                  <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
-                    何も見つかりませんでした
-                  </div>
-                ) : (
-                  filteredOptions.map((option) => (
-                    <Combobox.Option key={option.id} value={option.name} as={Fragment}>
-                      {({ active }) => (
-                        <li className=
-                          {`${active ? " bg-teal-600 text-white" : "bg-white text-gray-700"} 
+            {
+              filteredOptions.length === 0 && query !== '' ? (
+                <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
+                  何も見つかりませんでした
+                </div>
+              ) : (
+                filteredOptions.map((option) => (
+                  <Combobox.Option key={option.id} value={option} as={Fragment}>
+                    {({ active }) => (
+                      <li className=
+                        {`${active ? " bg-teal-600 text-white" : "bg-white text-gray-700"} 
                     mx-2 my-1 px-2 py-2 rounded-md cursor-default select-none`}>
-                          {option.name}
-                        </li>
-                      )}
-                    </Combobox.Option>
-                  )))}
-            </Combobox.Options>
-          </Transition>
+                        {option.name}
+                      </li>
+                    )}
+                  </Combobox.Option>
+                )))}
+          </Combobox.Options>
 
         </div>
 

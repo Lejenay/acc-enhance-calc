@@ -1,5 +1,5 @@
 import React from "react"
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -10,7 +10,10 @@ import {
   faCircleNotch
 } from "@fortawesome/free-solid-svg-icons"
 
-import { SelectedOptionContext } from "../contexts/SelectedOptionContext"
+import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
+import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
+import { items } from "../sections/CalcSection"
+import { fetchMarketData } from "../api/bdoMarketAPI"
 
 interface cronsRequired {
   id: number
@@ -25,20 +28,32 @@ const testYellowCronRequired: cronsRequired[] = [
   { id: 5, amount: 2999 },
 ]
 
-const deboCronRequired: cronsRequired[] = [
-  { id: 1, amount: 95 },
-  { id: 2, amount: 288 },
-  { id: 3, amount: 865 },
-  { id: 4, amount: 2405 },
-  { id: 5, amount: 11548 },
-]
+// const deboCronRequired: cronsRequired[] = [
+//   { id: 1, amount: 95 },
+//   { id: 2, amount: 288 },
+//   { id: 3, amount: 865 },
+//   { id: 4, amount: 2405 },
+//   { id: 5, amount: 11548 },
+// ]
 
 const EnhanceInfo = () => {
 
-  const {selectedOption} = useContext(SelectedOptionContext);
+  const { selectedDdOption } = useContext(SelectedDdOptionContext);
+  const { selectedCbOption } = useContext(SelectedCbOptionContext);
 
+  const [selectedMainKey, setSelectedMainKey] = useState<number | undefined>(items[0].id)
   const [inputFS, setInputFS] = useState<number>(100)
   const [warning, setWarning] = useState<string>("")
+
+  // anyは後で修正
+  const [marketData, setMarketData] = useState<Object | null>(null);
+
+  useEffect(() => {
+    const selected = items.find((item) => item.name === selectedCbOption.name)
+    if (selected) {
+      setSelectedMainKey(selected.id)
+    }
+  }, [selectedCbOption])
 
   const handleInputFS = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -57,6 +72,25 @@ const EnhanceInfo = () => {
     const cronAmount = testYellowCronRequired.find(cron => cron.id === enhanceLevel)
     return cronAmount?.amount
   }
+
+  /* API call */
+  useEffect(() => {
+    console.log(selectedMainKey)
+    const fetchData = async () => {
+      try {
+        const data = await fetchMarketData(selectedMainKey);
+        setMarketData(data)
+      } catch (error) {
+        console.error('Fetch error:', error)
+      }
+    }
+    fetchData()
+  }, [selectedMainKey])
+
+  useEffect(() => {
+    console.log(marketData);
+  }, [marketData]);
+  /* ******** */
 
   return (
     <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 font-NotoSans">
@@ -190,7 +224,7 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            {getCronAmountById(selectedOption.id)}
+            {getCronAmountById(selectedDdOption.id)}
           </div>
         </div>
       </li>

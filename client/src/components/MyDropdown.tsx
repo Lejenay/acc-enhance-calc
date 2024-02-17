@@ -3,21 +3,21 @@ import { useContext, Fragment } from "react"
 import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 
-import { SelectedOptionContext } from "../contexts/SelectedOptionContext"
+import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
 
-export interface Options {
+export interface OptionsDd {
   id: number
   name: string
 }
 
 interface MyDropdownProps {
-  options: Options[],
+  options: OptionsDd[],
   width?: string
 }
 
 const MyDropdown: React.FC<MyDropdownProps> = ({ options, width }) => {
 
-  const { selectedOption, setSelectedOption } = useContext(SelectedOptionContext);
+  const { selectedDdOption, setSelectedDdOption } = useContext(SelectedDdOptionContext);
 
   return (
     <Menu>
@@ -26,7 +26,7 @@ const MyDropdown: React.FC<MyDropdownProps> = ({ options, width }) => {
         px-4 py-[14px] shadow-md ${width ? width : "w-30"}
         focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75
         `}>
-        {(selectedOption as Options).name}
+        {(selectedDdOption as OptionsDd).name}
         <ChevronDownIcon
           className="-mr-1 ml-2 h-5 w-5 text-teal-700 hover:text-slate-600"
           aria-hidden="true" />
@@ -44,7 +44,7 @@ const MyDropdown: React.FC<MyDropdownProps> = ({ options, width }) => {
               <Menu.Item key={option.id}>
                 {({ active }) => (
                   <button
-                    onClick={() => setSelectedOption(option)}
+                    onClick={() => setSelectedDdOption(option)}
                     className={`${active ? 'bg-teal-600 text-white' : 'text-gray-900'
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
                     {option.name}
