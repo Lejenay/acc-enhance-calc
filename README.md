@@ -1,9 +1,4 @@
-# React + TypeScript + Vite
+# calculate expected value of accesaries enhancement on Black Desert Online
+Vite + React + TypeScript as Front & Express + Node.js as Back
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
+under Development... tough but fun!
