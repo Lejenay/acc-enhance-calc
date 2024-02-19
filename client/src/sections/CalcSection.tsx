@@ -4,21 +4,9 @@ import { OptionsCb } from "../components/MyCombobox"
 import { useState } from "react"
 import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
 import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
+import { enhanceLevel } from "../constants"
+import { items } from "../constants"
 
-const enhanceLevel = [
-  { id: 1, name: '真Ⅰ' },
-  { id: 2, name: '真Ⅱ' },
-  { id: 3, name: '真Ⅲ' },
-  { id: 4, name: '真Ⅳ' },
-  { id: 5, name: '真Ⅴ' },
-]
-
-export const items = [
-  { id: 12031, name: '三日月守護者のリング' },
-  { id: 11653, name: 'デヴォレカイヤリング' },
-  { id: 11629, name: 'ツングラドのネックレス' },
-  { id: 11853, name: '黒い侵食のイヤリング' },
-]
 
 const CalcSection = () => {
   const [selectedDdOption, setSelectedDdOption] = useState<OptionsDd>(enhanceLevel[0])
@@ -34,21 +22,28 @@ const CalcSection = () => {
             </h1>
           </div>
           <div className="flex justify-center h-screen mt-15">
-            <div className="w-full max-w-xl bg-slate-50 mx-[50px] mb-[50px]
+            <div className="min-w-[700px] bg-slate-50 mx-[50px] mb-[50px]
         shadow-md rounded-2xl" >
               <div className="font-NotoSans text-md text-slate-700 text-center mt-3">
                 アクセサリーと強化段階を選択
               </div>
-              <div className="flex mx-10 gap-3 justify-center items-center">
-                <div className="flex-grow">
+              <div className="flex mx-5 gap-3 justify-center items-center">
+                <div className="w-14 p-1
+                rounded-md bg-slate-50 shadow-md justify-center items-center
+                 border-[3px] border-yellow-500">
+                  <img
+                    src={items.find(item => item.name === selectedCbOption.name)?.icon}
+                  />
+                </div>
+                <div className="flex">
                   <MyCombobox options={items} />
                 </div>
-                <div className="flex-grow">
+                <div className="flex">
                   <MyDropdown options={enhanceLevel} />
                 </div>
               </div>
 
-              <div className="flex-col mx-5 my-5">
+              <div className="flex flex-col mx-5 my-5 items-center justify-center">
                 <EnhanceInfo />
               </div>
             </div>

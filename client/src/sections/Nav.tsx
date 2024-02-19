@@ -2,12 +2,15 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGem, faChartLine, faNoteSticky, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 
+import { mika } from "../assets/icons";
+
+
 const Nav = () => {
   return (
     <header className="basis-1/4 px-10 py-10 border-r-[1px] border-slate-200">
       <Link to="/" >
         <div className="flex justify-start items-center gap-6">
-          <img src="../src/assets/icons/mika.webp" alt="site icon" />
+          <img src={mika} alt="site icon" />
           <h1 className="font-Kiaro text-xl font-bold">
             アクセ錬金シミュレーター
           </h1>

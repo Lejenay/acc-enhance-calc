@@ -4,6 +4,7 @@ import { Combobox } from "@headlessui/react"
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
 import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
+import { items } from "../constants"
 
 export interface OptionsCb {
   id: number
@@ -16,7 +17,6 @@ interface MyComboboxProps {
 }
 
 const MyCombobox: React.FC<MyComboboxProps> = ({ options, width }) => {
-  // const [selectedOption, setSelectedOption] = useState<string>(options[0].name)
   const { selectedCbOption, setSelectedCbOption } = useContext(SelectedCbOptionContext)
 
   const [query, setQuery] = useState<string>("")
@@ -32,7 +32,7 @@ const MyCombobox: React.FC<MyComboboxProps> = ({ options, width }) => {
       )
 
   return (
-    <div>
+    <div className="min-w-[300px]">
       {/* @ts-ignore I'm sorry...*/}
       <Combobox value={selectedCbOption.name} onChange={setSelectedCbOption}>
         <div className="relative m-3 font-NotoSans">
@@ -65,12 +65,18 @@ const MyCombobox: React.FC<MyComboboxProps> = ({ options, width }) => {
                   何も見つかりませんでした
                 </div>
               ) : (
-                filteredOptions.map((option) => (
-                  <Combobox.Option key={option.id} value={option} as={Fragment}>
+                filteredOptions.map((option, index) => (
+                  <Combobox.Option key={index} value={option} as={Fragment}>
                     {({ active }) => (
-                      <li className=
+                      <li
+                        className=
                         {`${active ? " bg-teal-600 text-white" : "bg-white text-gray-700"} 
-                    mx-2 my-1 px-2 py-2 rounded-md cursor-default select-none`}>
+                    flex gap-2 items-center mx-2 my-1 px-2 py-2 
+                    rounded-md cursor-default select-none`}>
+                        <img
+                          src={items.find(item => item.name === option.name)?.icon}
+                          alt={option.name}
+                          className="w-6" />
                         {option.name}
                       </li>
                     )}

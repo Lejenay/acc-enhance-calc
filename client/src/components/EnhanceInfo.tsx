@@ -13,29 +13,9 @@ import {
 
 import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
 import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
-import { items } from "../sections/CalcSection"
 import { fetchMarketData, ItemData } from "../api/bdoMarketAPI"
+import { testYellowCronRequired, items } from "../constants"
 
-interface cronsRequired {
-  id: number
-  amount: number
-}
-
-const testYellowCronRequired: cronsRequired[] = [
-  { id: 1, amount: 24 },
-  { id: 2, amount: 74 },
-  { id: 3, amount: 224 },
-  { id: 4, amount: 625 },
-  { id: 5, amount: 2999 },
-]
-
-// const deboCronRequired: cronsRequired[] = [
-//   { id: 1, amount: 95 },
-//   { id: 2, amount: 288 },
-//   { id: 3, amount: 865 },
-//   { id: 4, amount: 2405 },
-//   { id: 5, amount: 11548 },
-// ]
 
 const EnhanceInfo = () => {
 
@@ -79,11 +59,12 @@ const EnhanceInfo = () => {
   const handleInputFsCost = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/,/g, '');
     const numberPattern = /^\d*$/
+    const maxFsCost = 500000000000
 
     if (!numberPattern.test(value)) {
       setWarningFsCost("数字を入力してください")
       return;
-    } else if (Number(value) > 500000000000) {
+    } else if (Number(value) > maxFsCost) {
       setWarningFsCost("500,000,000,000以下の数字を入力してください")
       return;
     } else {
@@ -112,9 +93,9 @@ const EnhanceInfo = () => {
   }, [selectedMainKey])
 
   // debug
-  useEffect(() => {
-    console.log(itemData);
-  }, [itemData]);
+  // useEffect(() => {
+  //   console.log(itemData);
+  // }, [itemData]);
   /* ******** */
 
   return (
