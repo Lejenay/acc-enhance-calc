@@ -34,7 +34,7 @@ const CalcSection = () => {
             </h1>
           </div>
           <div className="flex justify-center h-screen mt-15">
-            <div className="w-full max-w-lg bg-slate-50 mx-[50px] mb-[50px]
+            <div className="w-full max-w-xl bg-slate-50 mx-[50px] mb-[50px]
         shadow-md rounded-2xl" >
               <div className="font-NotoSans text-md text-slate-700 text-center mt-3">
                 アクセサリーと強化段階を選択
