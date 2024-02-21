@@ -15,6 +15,7 @@ import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
 import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
 import { fetchMarketData, ItemData } from "../api/bdoMarketAPI"
 import { testYellowCronRequired, items } from "../constants"
+import { successChanceCalc, averageTrialsCalc } from "../utils"
 
 
 const EnhanceInfo = () => {
@@ -188,7 +189,7 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            12.05%
+            {` ${parseFloat(successChanceCalc(inputFs, selectedDdOption.id).toFixed(2))}%`}
           </div>
         </div>
       </li>
@@ -208,7 +209,7 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            8.29
+            {averageTrialsCalc((successChanceCalc(inputFs, selectedDdOption.id) / 100))}
           </div>
         </div>
       </li>
