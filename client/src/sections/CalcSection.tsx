@@ -28,13 +28,16 @@ const CalcSection = () => {
                 アクセサリーと強化段階を選択
               </div>
               <div className="flex mx-5 gap-3 justify-center items-center">
-                <div className="w-14 p-1
+
+                {/* DO WE NEED ITEM ICONS ON FIRST VIEW ?*/}
+                {/* <div className="w-14 p-1
                 rounded-md bg-slate-50 shadow-md justify-center items-center
                  border-[3px] border-yellow-500">
                   <img
                     src={items.find(item => item.name === selectedCbOption.name)?.icon}
                   />
-                </div>
+                </div> */}
+
                 <div className="flex">
                   <MyCombobox options={items} />
                 </div>

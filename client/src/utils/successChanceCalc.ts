@@ -1,4 +1,9 @@
-const successChanceCalc = (failStacks: number, enhanceLevel: number) :number=>{
+import { enhanceLevelMapper } from "../utils";
+
+const accSuccessChanceCalc = (
+  failStacks: number,
+  enhanceLevel: number
+): number => {
   const baseSuccessRate = {
     pri: 25.0,
     duo: 10.0,
@@ -11,10 +16,10 @@ const successChanceCalc = (failStacks: number, enhanceLevel: number) :number=>{
     case 1:
       if (failStacks >= 0 && failStacks <= 18) {
         // 25.0 (base) + 2.5 per fail stacks
-        return baseSuccessRate.pri + failStacks * 2.50;
+        return baseSuccessRate.pri + failStacks * 2.5;
       } else if (failStacks >= 19 && failStacks <= 58) {
         // 25.0 (base) + 2.5 per stacks (until 18) + 0.5 per fail stacks (after 18 => soft cap)
-        return baseSuccessRate.pri + 18 * 2.50 + (failStacks - 18) * 0.50;
+        return baseSuccessRate.pri + 18 * 2.5 + (failStacks - 18) * 0.5;
       } else if (failStacks >= 59) {
         return 90.0;
       }
@@ -24,7 +29,7 @@ const successChanceCalc = (failStacks: number, enhanceLevel: number) :number=>{
       if (failStacks >= 0 && failStacks <= 40) {
         return baseSuccessRate.duo + failStacks * 1.0;
       } else if (failStacks >= 41 && failStacks <= 239) {
-        return baseSuccessRate.duo + 40 * 1.00 + (failStacks - 40) * 0.20;
+        return baseSuccessRate.duo + 40 * 1.0 + (failStacks - 40) * 0.2;
       } else if (failStacks >= 240) {
         return 90.0;
       }
@@ -64,4 +69,39 @@ const successChanceCalc = (failStacks: number, enhanceLevel: number) :number=>{
   return -1;
 };
 
-export default successChanceCalc;
+
+const otherEquipSuccessChanceCalc = (
+  failStacks: number,
+  enhanceLevel: number,
+  equipmentType: string
+): number => {
+  const literalEnhanceLevel = enhanceLevelMapper(enhanceLevel);
+
+  const baseSuccessRate: Record<string, Record<string, number>> = {
+    whiteAndYellowArmour: {
+      pri: 7.6923,
+      duo: 6.25,
+      tri: 2.0,
+      tet: 0.3,
+    },
+    blackStarWeapon: {
+      pri: 10.625,
+      duo: 3.4,
+      tri: 0.51,
+      tet: 0.2,
+    },
+    fallenGodArmour: {
+      pri: 1.0,
+      duo: 0.5,
+      tri: 0.2,
+      tet: 0.0025,
+    },
+  };
+
+  return (
+    baseSuccessRate[equipmentType][literalEnhanceLevel] *
+    (1 + (0.1 + failStacks))
+  );
+};
+
+export { accSuccessChanceCalc, otherEquipSuccessChanceCalc };

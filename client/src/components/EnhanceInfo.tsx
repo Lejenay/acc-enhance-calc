@@ -15,7 +15,7 @@ import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
 import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
 import { fetchMarketData, ItemData } from "../api/bdoMarketAPI"
 import { testYellowCronRequired, items } from "../constants"
-import { successChanceCalc, averageTrialsCalc } from "../utils"
+import { accSuccessChanceCalc, averageTrialsCalc } from "../utils"
 
 
 const EnhanceInfo = () => {
@@ -124,7 +124,7 @@ const EnhanceInfo = () => {
                 onChange={handleInputFs}
                 className="w-16 h-8 px-2 text-right bg-slate-50 
                 focus:outline-none focus:ring-1 focus:ring-teal-600 
-                focus:rounded-sm focus:duration-300"
+                focus:rounded-sm focus:duration-300 cursor-text"
               />
               {warningFs && <p className="text-sm text-red-500">{warningFs}</p>}
             </div>
@@ -189,7 +189,7 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            {` ${parseFloat(successChanceCalc(inputFs, selectedDdOption.id).toFixed(2))}%`}
+            {` ${parseFloat(accSuccessChanceCalc(inputFs, selectedDdOption.id).toFixed(2))} %`}
           </div>
         </div>
       </li>
@@ -209,7 +209,7 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            {averageTrialsCalc((successChanceCalc(inputFs, selectedDdOption.id) / 100))}
+            {averageTrialsCalc((accSuccessChanceCalc(inputFs, selectedDdOption.id) / 100))}
           </div>
         </div>
       </li>
