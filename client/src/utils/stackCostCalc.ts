@@ -1,4 +1,6 @@
+import { ItemData, fetchMarketData } from "../api/bdoMarketAPI";
 import { otherEquipSuccessChanceCalc } from "../utils";
+import enhanceLevAndIndexMapper from "./Mapping/enhanceLevelIndexMapper";
 
 interface itemUseCountForStack {
   targetStack: number;
@@ -6,11 +8,38 @@ interface itemUseCountForStack {
   volksCryUses: boolean;
   bsStoneUses: number;
   reblathUses: number;
+  tetReblathUses: number; // concerned when tet reblath succeeds
   tetBossArmourUses: number;
   tetBSWeaponUses: number;
   triFallenGodArmourUses: number;
   originOfDarkHungerUses: number;
 }
+
+const getMaterialPriceForStack = async (itemId: number): Promise<number> => {
+  try {
+    const data: ItemData | undefined = await fetchMarketData(itemId);
+    return data ? data[0].basePrice : -1;
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return -1;
+  }
+};
+
+const getEquipmentPriceForStack = async (
+  itemId: number,
+  enhanceLevel: number
+): Promise<number> => {
+  try {
+    const data: ItemData | undefined = await fetchMarketData(itemId);
+    return data
+      ? data[Object.keys(data).length - enhanceLevAndIndexMapper(enhanceLevel)]
+          .basePrice
+      : -1;
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return -1;
+  }
+};
 
 const itemUseForStackCalc = (
   targetStack: number,
@@ -20,6 +49,7 @@ const itemUseForStackCalc = (
   const itemUsage = {
     bsStone: 0,
     reblath: 0,
+    tetReblath: 0,
     tetBossArmour: 0,
     tetBSWeapon: 0,
     triFallenGodArmour: 0,
@@ -67,7 +97,7 @@ const itemUseForStackCalc = (
 
   // tet reblath / stack until 120 / increase stack per fail 6
   while (currentStack < targetStack && currentStack < 120) {
-    itemUsage.reblath += 1;
+    itemUsage.tetReblath += 1;
     currentStack += 6;
   }
 
@@ -128,9 +158,117 @@ const itemUseForStackCalc = (
     volksCryUses: volksCry,
     bsStoneUses: itemUsage.bsStone,
     reblathUses: itemUsage.reblath,
+    tetReblathUses: itemUsage.tetReblath,
     tetBossArmourUses: itemUsage.tetBossArmour,
     tetBSWeaponUses: itemUsage.tetBSWeapon,
     triFallenGodArmourUses: itemUsage.triFallenGodArmour,
     originOfDarkHungerUses: itemUsage.originOfDarkHunger,
   };
+};
+
+const stackCostCalc = async (
+  targetStack: number,
+  baseStack: number,
+  volksCry: boolean
+): Promise<number> => {
+  const itemUse = itemUseForStackCalc(targetStack, baseStack, volksCry);
+  let totalCost = 0;
+
+  /* Black stone */
+  const bsArmourCost = await getMaterialPriceForStack(16001);
+  const bsWeaponCost = await getMaterialPriceForStack(16002);
+  totalCost += itemUse.bsStoneUses * Math.min(bsArmourCost, bsWeaponCost);
+
+  /* Reblath pri to tri*/
+  // reblath repair cost (12900) + Concentrated BS cost (armour)
+  const reblathRepairCost = 12900;
+  const ConcentratedBSCost = await getMaterialPriceForStack(16005);
+  const reblathCost = reblathRepairCost + ConcentratedBSCost;
+  totalCost += itemUse.reblathUses * reblathCost;
+
+  /* Reblath tet */
+  // Vレブラスはさすがにマイナスなので、成功の期待値を含めて計算
+  // fail chance * [reblath repair cost (12900) + Concentrated BS cost (armour)]
+  // + success chance * [totalCost until then + Concentrated BS cost (armour)]
+  const costUntilTetReblath = totalCost;
+  const tetReblathCost =
+    itemUse.tetReblathUses *
+    (((1 - otherEquipSuccessChanceCalc(120, 4, "whiteAndYellowArmour")) / 100) *
+      (reblathRepairCost + ConcentratedBSCost) +
+      (otherEquipSuccessChanceCalc(120, 4, "whiteAndYellowArmour") / 100) *
+        (costUntilTetReblath + ConcentratedBSCost));
+  totalCost += tetReblathCost;
+
+  /* Volks cry */
+  // ヴォルクスは無料枠とする
+
+  /* Boss armour tet */
+  // succeeds 5.385% avg. when without volks cry / 4.615% avg. when with volks cry
+  // 家門名声7000とプレパケ時のtax: ((100 - 35) * 1.315 ) / 100
+  const taxRate = ((100 - 35) * 1.315) / 100;
+  const memoryFragmentCost = await getMaterialPriceForStack(44195);
+  const tetUrugonCost = await getEquipmentPriceForStack(11103, 4); // pen price
+  const triUrgonCost = await getEquipmentPriceForStack(11103, 3); // tet price
+  const duoUrgonCost = await getEquipmentPriceForStack(11103, 2); // tri price
+
+  const tetBossArmourAvgSuccessRate = volksCry ? 0.04615 : 0.05385;
+  const tetBossArmourCostPerAttempt =
+    tetBossArmourAvgSuccessRate * // when succeeds
+      (-1 * tetUrugonCost * taxRate + ConcentratedBSCost + totalCost) +
+    (1 - tetBossArmourAvgSuccessRate) * // when fails
+      ((triUrgonCost - duoUrgonCost) * taxRate +
+        ConcentratedBSCost +
+        memoryFragmentCost * 10);
+
+  totalCost += itemUse.tetBossArmourUses * tetBossArmourCostPerAttempt;
+
+  /* BS weapon tet */
+  // succeeds 4.88% avg.
+  const flawlessMagicalBSCost =
+    (await getMaterialPriceForStack(4998)) +
+    (await getMaterialPriceForStack(4997));
+  // 無欠な魔力 = 尖った(4998) + 堅い(4997)
+  const tetBSWeaponCost = await getEquipmentPriceForStack(715003, 4); // pen price
+  const triBSWeaponCost = await getEquipmentPriceForStack(715003, 3); // tet price
+  const duoBSWeaponCost = await getEquipmentPriceForStack(715003, 2); // tri price
+
+  const tetBSWeaponAvgSuccessRate = 0.0488;
+  const tetBSWeaponCostPerAttempt =
+    tetBSWeaponAvgSuccessRate * // when succeeds
+      (-1 * tetBSWeaponCost * taxRate + flawlessMagicalBSCost + totalCost) +
+    (1 - tetBSWeaponAvgSuccessRate) * // when fails
+      ((triBSWeaponCost - duoBSWeaponCost) * taxRate +
+        flawlessMagicalBSCost +
+        memoryFragmentCost * 20);
+
+  totalCost += itemUse.tetBSWeaponUses * tetBSWeaponCostPerAttempt;
+
+  /* Origin of dark hunger(闇捕食の起源) */
+  const originOfDarkHungerCost = await getMaterialPriceForStack(65319);
+  totalCost += itemUse.originOfDarkHungerUses * originOfDarkHungerCost;
+
+  /* Fallen god armour tri */
+  // succeeds 6.7% avg. (300fs to 350fs)
+  const flawlessChaoticBSCost =
+    (await getMaterialPriceForStack(721003)) + flawlessMagicalBSCost;
+  // 無欠な混沌のブラックストーン = カプラス(721003) + 無欠な魔力
+  const triFallenGodArmourCost = await getEquipmentPriceForStack(719897, 3); // tet price of labreska
+  const triFallenGodArmourCronCost = 4459214501; // 1,651,560(price per cron) * 2,700 = 4,459,214,501
+
+  const triFallenGodArmourAvgSuccessRate = 0.067;
+  const triFallenGodArmourCostPerAttempt =
+    triFallenGodArmourAvgSuccessRate * // when succeeds
+      (-1 * triFallenGodArmourCost * taxRate +
+        totalCost +
+        flawlessChaoticBSCost +
+        triFallenGodArmourCronCost) +
+    (1 - triFallenGodArmourAvgSuccessRate) * // when fails
+      (memoryFragmentCost * 30 +
+        flawlessChaoticBSCost +
+        triFallenGodArmourCronCost);
+
+  totalCost +=
+    itemUse.triFallenGodArmourUses * triFallenGodArmourCostPerAttempt;
+
+  return totalCost;
 };

@@ -100,7 +100,7 @@ const otherEquipSuccessChanceCalc = (
 
   return (
     baseSuccessRate[equipmentType][literalEnhanceLevel] *
-    (1 + (0.1 + failStacks))
+    (1 + (0.1 * failStacks))
   );
 };
 

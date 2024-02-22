@@ -48,3 +48,15 @@ baseChance = {
     tet: 0.0025,
   }
 }
+
+interface itemUseCountForStack {
+  targetStack: number;
+  baseStack: number;
+  volksCryUses: boolean;
+  bsStoneUses: number;
+  reblathUses: number;
+  tetBossArmourUses: number;
+  tetBSWeaponUses: number;
+  triFallenGodArmourUses: number;
+  originOfDarkHungerUses: number;
+}
