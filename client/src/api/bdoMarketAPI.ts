@@ -62,8 +62,6 @@ const fetchMarketData = async (itemId: number | undefined) => {
       };
     });
 
-    console.log("itemData:", itemData);
-
     return itemData;
   } catch (error) {
     console.error("Error:", error);

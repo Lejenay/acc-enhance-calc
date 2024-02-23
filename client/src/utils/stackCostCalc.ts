@@ -41,6 +41,14 @@ const getEquipmentPriceForStack = async (
   }
 };
 
+const requiredBsStoneForStack = (stack: number): number => {
+  const a = 0.117;
+  const b = -1.071;
+  const c = 9;
+  const result = a * stack * stack + b * stack + c;
+  return Math.floor(result);
+}
+
 const itemUseForStackCalc = (
   targetStack: number,
   baseStack: number,
@@ -60,13 +68,15 @@ const itemUseForStackCalc = (
 
   /* bs stone */
   if (targetStack <= 30 + baseStack) {
-    itemUsage.bsStone += targetStack - baseStack;
+    itemUsage.bsStone += requiredBsStoneForStack(targetStack - baseStack)
     currentStack = targetStack;
   } else {
-    itemUsage.bsStone += 30;
+    itemUsage.bsStone += 84;
     currentStack += 30;
   }
 
+  console.log("currentStack: ", currentStack, "itemUsage: ", itemUsage)
+  
   /* Reblath */
   // pri reblath / suc chance until 35% / increase stack per fail 3
   while (
@@ -172,6 +182,7 @@ const stackCostCalc = async (
   volksCry: boolean
 ): Promise<number> => {
   const itemUse = itemUseForStackCalc(targetStack, baseStack, volksCry);
+  console.log(itemUse)
   let totalCost = 0;
 
   /* Black stone */
