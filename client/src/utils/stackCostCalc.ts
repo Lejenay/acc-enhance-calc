@@ -272,3 +272,5 @@ const stackCostCalc = async (
 
   return totalCost;
 };
+
+export default stackCostCalc;

@@ -13,22 +13,33 @@ import {
 
 import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
 import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
+import { SelectedSwitchOptionContext } from "../contexts/SelectedSwitchOptionContext"
 import { fetchMarketData, ItemData } from "../api/bdoMarketAPI"
 import { testYellowCronRequired, items } from "../constants"
 import { accSuccessChanceCalc, averageTrialsCalc } from "../utils"
-
+import { stackCostCalc } from "../utils"
 
 const EnhanceInfo = () => {
 
   const { selectedDdOption } = useContext(SelectedDdOptionContext);
   const { selectedCbOption } = useContext(SelectedCbOptionContext);
+  const { selectedSwitchOption } = useContext(SelectedSwitchOptionContext);
+
+
 
   const [selectedMainKey, setSelectedMainKey] = useState<number | undefined>(items[0].id)
   const [inputFs, setInputFs] = useState<number>(100)
-  const [inputFsCost, setInputFsCost] = useState<number>(100000000)
+  const [fsCost, setFsCost] = useState<number>(0)
   const [warningFs, setWarningFs] = useState<string>("")
-  const [warningFsCost, setWarningFsCost] = useState<string>("")
   const [itemData, setItemData] = useState<ItemData | undefined>(undefined);
+
+  useEffect(() => {
+    const calculateStackCost = async () => {
+      const stackCost = await stackCostCalc(inputFs, 0, selectedSwitchOption)
+      setFsCost(stackCost)
+    }
+    calculateStackCost()
+  }, [inputFs])
 
   useEffect(() => {
     const selected = items.find((item) => item.name === selectedCbOption.name)
@@ -44,6 +55,9 @@ const EnhanceInfo = () => {
     if (!numberPattern.test(value)) {
       setWarningFs("数字を入力してください")
       return;
+    } else if (Number(value) > 300) {
+      setWarningFs("300以下のスタックが設定できます")
+      return;
     } else {
       setInputFs(Number(value))
       setWarningFs("")
@@ -56,24 +70,6 @@ const EnhanceInfo = () => {
    * @returns
    */
   const formatNumber = (value: number): string => new Intl.NumberFormat('ja-JP').format(value);
-
-  const handleInputFsCost = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/,/g, '');
-    const numberPattern = /^\d*$/
-    const maxFsCost = 500000000000
-
-    if (!numberPattern.test(value)) {
-      setWarningFsCost("数字を入力してください")
-      return;
-    } else if (Number(value) > maxFsCost) {
-      setWarningFsCost("500,000,000,000以下の数字を入力してください")
-      return;
-    } else {
-      setInputFsCost(Number(value))
-      setWarningFsCost("")
-    }
-  }
-
 
   const getCronAmountById = (enhanceLevel: number) => {
     const cronAmount = testYellowCronRequired.find(cron => cron.id === enhanceLevel)
@@ -100,7 +96,7 @@ const EnhanceInfo = () => {
   /* ******** */
 
   return (
-    <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 font-NotoSans">
+    <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 font-NotoSans duration-500">
 
       {/* fail stacks */}
       <li className="pb-3 sm:pb-4">
@@ -222,23 +218,15 @@ const EnhanceInfo = () => {
           <FontAwesomeIcon icon={faCoins} />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-              スタック費用 ( カスタム可能 )
+              推定スタック費用
             </p>
             <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-              Cost of Fail Stacks ( Customizable )
+              Est. Cost of Fail Stacks
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
             <div className="flex flex-col items-end justify-center">
-              <input
-                type="text"
-                value={formatNumber(inputFsCost)}
-                onChange={handleInputFsCost}
-                className="w-[9rem] h-8 px-2 text-right bg-slate-50 
-                focus:outline-none focus:ring-1 focus:ring-teal-600 
-                focus:rounded-sm focus:duration-300"
-              />
-              {warningFsCost && <p className="text-sm text-red-500">{warningFsCost}</p>}
+              {formatNumber(Math.floor(fsCost)) + " Silver"}
             </div>
           </div>
         </div>

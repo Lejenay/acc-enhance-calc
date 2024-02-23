@@ -37,8 +37,8 @@ const MyDropdown: React.FC<MyDropdownProps> = ({ options, width }) => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <Menu.Items className="absolute mt-2 w-[82px] divide-y divide-gray-100 rounded-md bg-white
-      shadow-lg ring-1 ring-black/5 focus:outline-none">
+        <Menu.Items className="absolute mt-[55px] w-[82px] divide-y divide-gray-100 rounded-md bg-white
+      shadow-lg ring-1 ring-black/5 focus:outline-none z-10">
           <div className="px-3 py-2">
             {options.map((option) => (
               <Menu.Item key={option.id}>

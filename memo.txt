@@ -60,3 +60,5 @@ interface itemUseCountForStack {
   triFallenGodArmourUses: number;
   originOfDarkHungerUses: number;
 }
+
+2/23: api呼び出し過ぎてスタック計算が遅すぎる終わってる　あとレブラス区間の計算が不正確な気がする
