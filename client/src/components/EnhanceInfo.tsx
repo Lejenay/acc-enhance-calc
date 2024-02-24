@@ -14,6 +14,7 @@ import {
 import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
 import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
 import { SelectedSwitchOptionContext } from "../contexts/SelectedSwitchOptionContext"
+import { SelectedRgOptionContext } from "../contexts/SelectedRgOptionContext"
 import { fetchMarketData, ItemData } from "../api/bdoMarketAPI"
 import { testYellowCronRequired, items } from "../constants"
 import { accSuccessChanceCalc, averageTrialsCalc } from "../utils"
@@ -24,8 +25,7 @@ const EnhanceInfo = () => {
   const { selectedDdOption } = useContext(SelectedDdOptionContext);
   const { selectedCbOption } = useContext(SelectedCbOptionContext);
   const { selectedSwitchOption } = useContext(SelectedSwitchOptionContext);
-
-
+  const { selectedRgOption } = useContext(SelectedRgOptionContext)
 
   const [selectedMainKey, setSelectedMainKey] = useState<number | undefined>(items[0].id)
   const [inputFs, setInputFs] = useState<number>(100)
@@ -35,11 +35,11 @@ const EnhanceInfo = () => {
 
   useEffect(() => {
     const calculateStackCost = async () => {
-      const stackCost = await stackCostCalc(inputFs, 0, selectedSwitchOption)
+      const stackCost = await stackCostCalc(inputFs, selectedRgOption, selectedSwitchOption)
       setFsCost(stackCost)
     }
     calculateStackCost()
-  }, [inputFs])
+  }, [inputFs, selectedRgOption, selectedSwitchOption])
 
   useEffect(() => {
     const selected = items.find((item) => item.name === selectedCbOption.name)
@@ -218,7 +218,7 @@ const EnhanceInfo = () => {
           <FontAwesomeIcon icon={faCoins} />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-              推定スタック費用
+              推定スタック費用 <span className="text-red-600 font-bold">(beta)</span>
             </p>
             <p className="text-sm text-gray-500 truncate dark:text-gray-400">
               Est. Cost of Fail Stacks

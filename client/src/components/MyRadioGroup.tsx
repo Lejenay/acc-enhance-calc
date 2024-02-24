@@ -1,10 +1,11 @@
-import { useState } from "react"
-import { baseStack } from "../constants"
+import { useContext } from "react"
+import { SelectedRgOptionContext } from "../contexts/SelectedRgOptionContext"
 
 const option = [0, 1, 2, 3, 4]
 
 const MyRadioGroup = () => {
-  const [selectedRgOption, setSelectedRgOption] = useState<number>(baseStack[0])
+  // const [selectedRgOption, setSelectedRgOption] = useState<number>(baseStack[0])
+  const { selectedRgOption, setSelectedRgOption } = useContext(SelectedRgOptionContext)
 
   return (
     <div className="w-full px-4 py-3 flex items-center justify-center gap-3 select-none">

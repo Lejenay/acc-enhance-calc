@@ -6,9 +6,9 @@ base stack: 0-4
 0-30 armour bs x84
 
 after that...
-pri reblath / suc chance until 35%
-duo reblath / suc chance until 40%
-tri reblath / suc chance until 20%
+pri reblath / suc chance until 35% -> 31.5384% to 34.6154% (31 to 35) avg. 33.08%
+duo reblath / suc chance until 40% -> 28.75% to 40.0% (36 to 54) avg. 34.375%
+tri reblath / suc chance until 20% -> 13.0% to 20.0% (55 to 90) avg. 16.5%
 tet reblath / suc chance until 120 stack
 
 if volks' cry checked -> + 10 ~ 13
@@ -61,4 +61,7 @@ interface itemUseCountForStack {
   originOfDarkHungerUses: number;
 }
 
+
+/* update log */
 2/23: api呼び出し過ぎてスタック計算が遅すぎる終わってる　あとレブラス区間の計算が不正確な気がする
+2/24: レブラス区間の計算直し　fsが282以上だとクラッシュする現象 281は通った... →　修正済み2/24 10:09

@@ -1,9 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Switch } from '@headlessui/react'
 import { SelectedSwitchOptionContext } from '../contexts/SelectedSwitchOptionContext'
 
 const MySwitch = () => {
-  // const [enabled, setEnabled] = useState<boolean>(true)
   const { selectedSwitchOption, setSelectedSwitchOption } = useContext(SelectedSwitchOptionContext)
 
   return (
@@ -22,7 +21,8 @@ const MySwitch = () => {
         <span
           aria-hidden="true"
           className={`${selectedSwitchOption ? 'translate-x-9' : 'translate-x-0'}
-            pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+            pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full
+             bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
         />
       </Switch>
     </div>

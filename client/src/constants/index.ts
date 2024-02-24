@@ -21,6 +21,4 @@ const enhanceLevel = [
   { id: 5, name: "真Ⅴ" },
 ];
 
-const baseStack = [0, 1, 2, 3, 4];
-
-export { testYellowCronRequired, enhanceLevel, baseStack, items };
+export { testYellowCronRequired, enhanceLevel, items };

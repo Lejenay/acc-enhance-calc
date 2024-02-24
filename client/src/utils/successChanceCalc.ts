@@ -98,10 +98,11 @@ const otherEquipSuccessChanceCalc = (
     },
   };
 
-  return (
-    baseSuccessRate[equipmentType][literalEnhanceLevel] *
-    (1 + (0.1 * failStacks))
-  );
+  const result = baseSuccessRate[equipmentType][literalEnhanceLevel] *
+  (1 + (0.1 * failStacks))
+
+  // 100分率に変換
+  return result / 100;
 };
 
 export { accSuccessChanceCalc, otherEquipSuccessChanceCalc };
