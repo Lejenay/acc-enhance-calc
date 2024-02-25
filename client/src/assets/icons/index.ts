@@ -9,6 +9,7 @@ import EtherealEarring from "./EtherealEarring.webp";
 import EyeOfTheRuinsRing from "./EyeOfTheRuinsRing.webp";
 import ForestRonarosRing from "./ForestRonarosRing.webp";
 import LaytennsPowerStone from "./LaytennsPowerStone.webp";
+import NarcEarAccessory from "./NarcEarAccessory.webp";
 import OgreRing from "./OgreRing.webp";
 import OminousRing from "./OminousRing.webp";
 import OrkinradsBelt from "./OrkinradsBelt.webp";
@@ -42,6 +43,7 @@ export {
   EyeOfTheRuinsRing,
   ForestRonarosRing,
   LaytennsPowerStone,
+  NarcEarAccessory,
   OgreRing,
   OminousRing,
   OrkinradsBelt,

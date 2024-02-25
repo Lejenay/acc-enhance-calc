@@ -10,15 +10,16 @@ import {
   faCircleNotch,
   faMoneyBillWave
 } from "@fortawesome/free-solid-svg-icons"
+import ReactLoading from "react-loading";
 
 import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
 import { SelectedCbOptionContext } from "../contexts/SelectedCbOptionContext"
 import { SelectedSwitchOptionContext } from "../contexts/SelectedSwitchOptionContext"
 import { SelectedRgOptionContext } from "../contexts/SelectedRgOptionContext"
 import { fetchMarketData, ItemData } from "../api/bdoMarketAPI"
-import { testYellowCronRequired, items } from "../constants"
+import { items } from "../constants"
 import { accSuccessChanceCalc, averageTrialsCalc } from "../utils"
-import { stackCostCalc } from "../utils"
+import { stackCostCalc, expectedValueCalc } from "../utils"
 
 const EnhanceInfo = () => {
 
@@ -32,21 +33,62 @@ const EnhanceInfo = () => {
   const [fsCost, setFsCost] = useState<number>(0)
   const [warningFs, setWarningFs] = useState<string>("")
   const [itemData, setItemData] = useState<ItemData | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
+  const accSuccessRate = accSuccessChanceCalc(inputFs, selectedDdOption.id)
+
+  /* calculate stack cost when inputFs, selectedRgOption, or selectedSwitchOption changes */
   useEffect(() => {
     const calculateStackCost = async () => {
+      setIsLoading(true)
       const stackCost = await stackCostCalc(inputFs, selectedRgOption, selectedSwitchOption)
-      setFsCost(stackCost)
+      setFsCost(Number(Math.floor(stackCost)))
+      setIsLoading(false)
     }
     calculateStackCost()
   }, [inputFs, selectedRgOption, selectedSwitchOption])
 
+  /* set selectedMainKey for Market API when selectedCbOption changes */
   useEffect(() => {
     const selected = items.find((item) => item.name === selectedCbOption.name)
     if (selected) {
       setSelectedMainKey(selected.id)
     }
   }, [selectedCbOption])
+
+  /* API call */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data: ItemData | undefined = await fetchMarketData(selectedMainKey);
+        setItemData(data)
+      } catch (error) {
+        console.error('Fetch error:', error)
+      }
+    }
+    fetchData()
+  }, [selectedMainKey])
+
+  /* set default inputFs when selectedDdOption changes */
+  useEffect(() => {
+    switch (selectedDdOption.id) {
+      case 1:
+        setInputFs(20)
+        break;
+      case 2:
+        setInputFs(30)
+        break;
+      case 3:
+        setInputFs(50)
+        break;
+      case 4:
+        setInputFs(100)
+        break;
+      case 5:
+        setInputFs(200)
+        break;
+    }
+  }, [selectedDdOption])
 
   const handleInputFs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -64,41 +106,22 @@ const EnhanceInfo = () => {
     }
   }
 
-  /**
-   * Separate every three digits with a comma
-   * @param value
-   * @returns
-   */
+  /* format number with comma */
   const formatNumber = (value: number): string => new Intl.NumberFormat('ja-JP').format(value);
 
-  const getCronAmountById = (enhanceLevel: number) => {
-    const cronAmount = testYellowCronRequired.find(cron => cron.id === enhanceLevel)
-    return cronAmount?.amount
+  const getCronAmount = (itemName: string, enhanceLevel: number) => {
+    const selectedItem = items.find((item) => item.name === itemName)
+    const cronAmount = selectedItem?.cron[enhanceLevel - 1]
+    return cronAmount
   }
 
-  /* API call */
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data: ItemData | undefined = await fetchMarketData(selectedMainKey);
-        setItemData(data)
-      } catch (error) {
-        console.error('Fetch error:', error)
-      }
-    }
-    fetchData()
-  }, [selectedMainKey])
+  const expectedValue = Math.floor(
+    expectedValueCalc(itemData, selectedDdOption.id, accSuccessRate, fsCost))
 
-  // debug
-  // useEffect(() => {
-  //   console.log(itemData);
-  // }, [itemData]);
-  /* ******** */
 
   return (
     <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 font-NotoSans duration-500">
-
-      {/* fail stacks */}
+      {/* stack */}
       <li className="pb-3 sm:pb-4">
         <div className="flex items-center space-x-4 rtl:space-x-reverse">
           <div className="flex-shrink-0">
@@ -164,9 +187,20 @@ const EnhanceInfo = () => {
               Expected Value ( Profit )
             </p>
           </div>
-          <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            2,450,000,000 Silver
-          </div>
+          {isLoading ?
+            <ReactLoading
+              type="spin"
+              color="teal"
+              height="20px"
+              width="20px"
+              className="mx-auto duration-200"
+            /> :
+            <div className=
+              {`inline-flex items-center text-base font-semibold  dark:text-white
+              ${Number(expectedValue) > 0 ? "text-teal-600" : "text-red-600"}`}>
+              {formatNumber(expectedValue) + " Silver"}
+            </div>
+          }
         </div>
       </li>
 
@@ -185,7 +219,7 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            {` ${parseFloat(accSuccessChanceCalc(inputFs, selectedDdOption.id).toFixed(2))} %`}
+            {` ${parseFloat(accSuccessRate.toFixed(2))} %`}
           </div>
         </div>
       </li>
@@ -205,7 +239,7 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            {averageTrialsCalc((accSuccessChanceCalc(inputFs, selectedDdOption.id) / 100))}
+            {averageTrialsCalc((accSuccessRate / 100))}
           </div>
         </div>
       </li>
@@ -225,9 +259,18 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            <div className="flex flex-col items-end justify-center">
-              {formatNumber(Math.floor(fsCost)) + " Silver"}
-            </div>
+            {isLoading ?
+              <ReactLoading
+                type="spin"
+                color="teal"
+                height="20px"
+                width="20px"
+                className="mx-auto duration-200"
+              /> :
+              <div className="flex flex-col items-end justify-center">
+                {formatNumber(fsCost) + " Silver"}
+              </div>
+            }
           </div>
         </div>
       </li>
@@ -252,11 +295,12 @@ const EnhanceInfo = () => {
             </p>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            {getCronAmountById(selectedDdOption.id)}
+            {getCronAmount(selectedCbOption.name, selectedDdOption.id)}
           </div>
         </div>
       </li>
-    </ul>
+
+    </ul >
 
   )
 }

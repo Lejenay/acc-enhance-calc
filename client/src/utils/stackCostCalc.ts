@@ -132,9 +132,6 @@ const itemUseForStackCalc = (
     currentStack += 6;
   }
 
-  // for debug
-  console.log(itemUsage);
-
   /* Origin of dark hunger */
   // 250-279 / increase stack 3 per use
   while (currentStack < targetStack && currentStack < 280) {
@@ -160,9 +157,6 @@ const itemUseForStackCalc = (
     itemUsage.triFallenGodArmour += 1;
     currentStack += 5;
   }
-
-  // for debug
-  console.log(itemUsage);
 
   return {
     targetStack,
