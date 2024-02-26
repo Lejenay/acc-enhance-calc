@@ -3,5 +3,13 @@ import MyDropdown from "./MyDropdown";
 import MyRadioGroup from "./MyRadioGroup";
 import MySwitch from "./MySwitch";
 import EnhanceInfo from "./EnhanceInfo";
+import HowToUse from "./HowToUse";
 
-export { MyCombobox, MyDropdown, MyRadioGroup, MySwitch, EnhanceInfo };
+export {
+  MyCombobox,
+  MyDropdown,
+  MyRadioGroup,
+  MySwitch,
+  EnhanceInfo,
+  HowToUse,
+};

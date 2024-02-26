@@ -8,7 +8,9 @@ import {
   faDice, faGavel,
   faCoins,
   faCircleNotch,
-  faMoneyBillWave
+  faMoneyBillWave,
+  faMinus,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons"
 import ReactLoading from "react-loading";
 
@@ -118,9 +120,20 @@ const EnhanceInfo = () => {
   const expectedValue = Math.floor(
     expectedValueCalc(itemData, selectedDdOption.id, accSuccessRate, fsCost))
 
+  const handleDecrement = () => {
+    if (inputFs > 0) {
+      setInputFs(inputFs - 1)
+    }
+  }
+
+  const handleIncrement = () => {
+    if (inputFs < 300) {
+      setInputFs(inputFs + 1)
+    }
+  }
 
   return (
-    <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700 font-NotoSans duration-500">
+    <ul className="w-full max-w-md divide-y divide-gray-200 dark:divide-gray-700 font-NotoSans duration-500">
       {/* stack */}
       <li className="pb-3 sm:pb-4">
         <div className="flex items-center space-x-4 rtl:space-x-reverse">
@@ -137,15 +150,33 @@ const EnhanceInfo = () => {
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
             <div className="flex flex-col items-end justify-center">
-              <input
-                type="text"
-                value={inputFs}
-                onChange={handleInputFs}
-                className="w-16 h-8 px-2 text-right bg-slate-50 
-                focus:outline-none focus:ring-1 focus:ring-teal-600 
-                focus:rounded-sm focus:duration-300 cursor-text"
-              />
-              {warningFs && <p className="text-sm text-red-500">{warningFs}</p>}
+              <div className="flex items-end justify-center">
+                <button onClick={handleDecrement} className="px-2 py-1 mx-2 text-gray-600 shadow-md
+                bg-white hover:bg-teal-600 
+              hover:text-slate-200 rounded-full duration-150">
+                  <FontAwesomeIcon icon={faMinus} />
+                </button>
+                <input
+                  type="text"
+                  value={inputFs}
+                  onChange={handleInputFs}
+                  className="w-16 h-8 px-2 text-center bg-slate-50 
+                hover:outline-none hover:ring-1 hover:ring-teal-600 
+                hover:rounded-sm hover:duration-300 
+                focus:outline-none focus:ring-1 focus:ring-teal-600
+                focus:rounded-sm focus:duration-300
+                cursor-text"
+                />
+                <button onClick={handleIncrement} className="px-2 py-1 mx-2 text-gray-600 shadow-md
+                bg-white hover:bg-teal-600 
+              hover:text-slate-200 rounded-full duration-150">
+                  <FontAwesomeIcon icon={faPlus} />
+                </button>
+              </div>
+
+              <div>
+                {warningFs && <p className="text-sm text-red-500">{warningFs}</p>}
+              </div>
             </div>
           </div>
         </div>

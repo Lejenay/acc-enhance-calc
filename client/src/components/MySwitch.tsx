@@ -17,7 +17,6 @@ const MySwitch = () => {
            focus-visible:ring-white/75
            scale-90`}
       >
-        <span className="sr-only">Use setting</span>
         <span
           aria-hidden="true"
           className={`${selectedSwitchOption ? 'translate-x-9' : 'translate-x-0'}
