@@ -31,7 +31,6 @@ const Nav = () => {
             <Link to="#calc-method" >
               <FontAwesomeIcon icon={faChartLine} />
               <span className="ml-4">
-                <span className=" text-red-600">[重要] </span>
                 計算方法
               </span>
             </Link>
