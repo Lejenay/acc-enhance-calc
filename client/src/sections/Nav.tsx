@@ -7,11 +7,11 @@ import { mika } from "../assets/icons";
 
 const Nav = () => {
   return (
-    <header className="basis-1/4 px-10 py-10 border-r-[1px] border-slate-200 relative select-none">
+    <header className="basis-1/5 px-10 py-10 border-r-[1px] border-slate-200 relative select-none">
       <Link to="/" >
         <div className="flex justify-start items-center gap-6">
           <img src={mika} alt="site icon" />
-          <h1 className="font-Kiaro text-xl font-bold">
+          <h1 className="font-Kiaro text-lg font-bold">
             アクセ錬金シミュレーター
           </h1>
         </div>
