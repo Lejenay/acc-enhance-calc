@@ -184,13 +184,18 @@ const stackCostCalc = async (
 
   /* Black stone */
   const bsArmourCost = await getMaterialPriceForStack(16001);
-  const bsWeaponCost = await getMaterialPriceForStack(16002);
-  totalCost += itemUse.bsStoneUses * Math.min(bsArmourCost, bsWeaponCost);
+  /* NOTE: bs weapon is estimated to not be used anymore due to the update on 4/3/2024 
+  two line below is outdated */
+  // const bsWeaponCost = await getMaterialPriceForStack(16002);
+  // totalCost += itemUse.bsStoneUses * Math.min(bsArmourCost, bsWeaponCost);
+
+  totalCost += itemUse.bsStoneUses * bsArmourCost;
 
   /* Reblath pri */
-  // reblath repair cost (12900) + Concentrated BS cost (armour)
+  // reblath repair cost (12900) + Concentrated BS cost (weapon)
+  /* NOTE: Concentrated magic bs (armour - id:16005) is deleted due to the update on 4/3/2024*/
   const reblathRepairCost = 12900;
-  const ConcentratedBSCost = await getMaterialPriceForStack(16005);
+  const ConcentratedBSCost = await getMaterialPriceForStack(16004);
   if (itemUse.priReblathUses > 0) {
     const priReblathAvgSuccessRate = 0.3308;
     const reblathCost =
@@ -234,7 +239,7 @@ const stackCostCalc = async (
   }
 
   /* Volks cry */
-  // ヴォルクスは無料枠とする
+  // volks is defined as no cost here
 
   /* Boss armour tet */
   // succeeds 5.385% avg. when without volks cry / 4.615% avg. when with volks cry
@@ -260,10 +265,13 @@ const stackCostCalc = async (
 
   /* BS weapon tet */
   // succeeds 4.88% avg.
-  const flawlessMagicalBSCost =
-    (await getMaterialPriceForStack(4998)) +
-    (await getMaterialPriceForStack(4997));
-  // 無欠な魔力 = 尖った(4998) + 堅い(4997)
+  const flawlessMagicalBSCost = (await getMaterialPriceForStack(4998)) * 2;
+  /* NOTE: hard black crystal shard (堅い, id - 4997) has been removed from the game on 4/3/2024 
+  three line below is outdated */
+  // const flawlessMagicalBSCost =
+  //   (await getMaterialPriceForStack(4998)) +
+  //   (await getMaterialPriceForStack(4997));
+
   if (itemUse.tetBSWeaponUses > 0) {
     const tetBSWeaponCost = await getEquipmentPriceForStack(715003, 4); // pen price
     const triBSWeaponCost = await getEquipmentPriceForStack(715003, 3); // tet price
