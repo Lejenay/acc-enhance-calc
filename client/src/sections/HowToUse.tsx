@@ -1,6 +1,6 @@
 const HowToUse = () => {
   return (
-    <section className="flex flex-col gap-[70px] select-none">
+    <section className="flex flex-col gap-[70px] select-none m-10">
       <div className="flex flex-col">
         <p className="text-lg font-Kiaro text-slate-700">使い方</p>
         <p className="text-sm text-gray-500 truncate dark:text-gray-400">How to use</p>

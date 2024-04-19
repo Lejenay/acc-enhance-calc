@@ -22,7 +22,7 @@ const CalcSection = () => {
       <SelectedCbOptionContext.Provider value={{ selectedCbOption, setSelectedCbOption }}>
         <SelectedSwitchOptionContext.Provider value={{ selectedSwitchOption, setSelectedSwitchOption }}>
           <SelectedRgOptionContext.Provider value={{ selectedRgOption, setSelectedRgOption }}>
-            <section className="flex-grow">
+            <section>
               <div className="flex items-center w-full h-12 text-left mx-10 my-10">
                 <h1 className="text-2xl font-OpenSans font-bold text-slate-700 select-none">
                   Expected Value <span className="text-teal-600">Calculator</span>
@@ -70,9 +70,6 @@ const CalcSection = () => {
                   <div className="flex flex-col mx-5 my-10 items-center justify-center">
                     <EnhanceInfo />
                   </div>
-                </div>
-                <div className="border-l-[1px] px-[50px] w-full">
-                  <HowToUse />
                 </div>
               </div>
             </section>
