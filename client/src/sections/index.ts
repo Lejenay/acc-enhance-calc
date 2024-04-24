@@ -1,6 +1,6 @@
 import Nav from "./Nav"
 import CalcSection from "./CalcSection"
-import CalcMethod from "./CalcMethod"
 import HowToUse from "./HowToUse"
+import Privacy from "./Privacy"
 
-export { Nav, CalcSection, CalcMethod, HowToUse }
+export { Nav, CalcSection, Privacy, HowToUse }

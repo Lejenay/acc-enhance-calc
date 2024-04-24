@@ -1,12 +1,12 @@
 const HowToUse = () => {
   return (
-    <section className="flex flex-col gap-[70px] select-none m-10">
-      <div className="flex flex-col">
+    <section className="flex flex-col gap-[70px] select-none w-[800px]">
+      <div className="flex flex-col m-10">
         <p className="text-lg font-Kiaro text-slate-700">使い方</p>
         <p className="text-sm text-gray-500 truncate dark:text-gray-400">How to use</p>
       </div>
 
-      <div className="bg-slate-50 max-w-sm shadow-md rounded-lg px-10 py-5 relative font-Noto">
+      <div className="bg-slate-50 max-w-sm shadow-md rounded-lg px-10 py-5 relative font-Noto mx-10">
         <div className="bg-teal-600 rounded-full w-14 h-14 shadow-md absolute left-5 top-[-20px] 
         flex items-center justify-center">
           <span className="text-white font-bold text-2xl">1</span>
@@ -20,7 +20,7 @@ const HowToUse = () => {
         </div>
       </div>
 
-      <div className="bg-slate-50 max-w-sm shadow-md rounded-lg px-10 py-5 relative  font-Noto">
+      <div className="bg-slate-50 max-w-sm shadow-md rounded-lg px-10 py-5 relative  font-Noto mx-10">
         <div className="bg-slate-700 rounded-full w-14 h-14 shadow-md absolute left-5 top-[-20px] 
         flex items-center justify-center">
           <span className="text-white font-bold text-2xl">2</span>

@@ -22,8 +22,8 @@ const CalcSection = () => {
       <SelectedCbOptionContext.Provider value={{ selectedCbOption, setSelectedCbOption }}>
         <SelectedSwitchOptionContext.Provider value={{ selectedSwitchOption, setSelectedSwitchOption }}>
           <SelectedRgOptionContext.Provider value={{ selectedRgOption, setSelectedRgOption }}>
-            <section>
-              <div className="flex items-center w-full h-12 text-left mx-10 my-10">
+            <section className="w-[800px]">
+              <div className="flex items-center h-12 text-left mx-10 my-10">
                 <h1 className="text-2xl font-OpenSans font-bold text-slate-700 select-none">
                   Expected Value <span className="text-teal-600">Calculator</span>
                 </h1>

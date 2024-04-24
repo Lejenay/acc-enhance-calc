@@ -37,22 +37,6 @@ const Nav = () => {
             </Link>
           </li>
 
-          <li className="font-Kiaro  text-slate-700 font-bold mt-6
-                  hover:text-teal-600 hover:duration-300">
-            <Link to="/calc-method" >
-              <FontAwesomeIcon icon={faChartLine} />
-              <span className="ml-4">計算方法</span>
-            </Link>
-          </li>
-
-          <li className="font-Kiaro text-slate-700 font-bold mt-6
-                  hover:text-teal-600 hover:duration-300">
-            <Link to="/update-log" >
-              <FontAwesomeIcon icon={faNoteSticky} />
-              <span className="ml-4">アップデートログ</span>
-            </Link>
-          </li>
-
           <li className="font-Kiaro text-slate-700 font-bold mt-6
                   hover:text-teal-600 hover:duration-300">
             <Link to="/privacy" >
