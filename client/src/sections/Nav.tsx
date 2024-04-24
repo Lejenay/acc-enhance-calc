@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGem, faChartLine, faNoteSticky, faShieldHalved, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { faGem, faShieldHalved, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 import { mika } from "../assets/icons";
 
