@@ -28,7 +28,7 @@ const CalcSection = () => {
                   Expected Value <span className="text-teal-600">Calculator</span>
                 </h1>
               </div>
-              <div className="flex justify-center h-screen mt-15">
+              <div className="flex justify-center mt-15">
                 <div className="min-w-[700px] bg-slate-50 mx-[50px] mb-[50px]
         shadow-md rounded-2xl" >
                   <div className="font-NotoSans text-md text-slate-700 text-center mt-3">
