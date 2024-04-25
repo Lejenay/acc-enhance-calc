@@ -1,19 +1,17 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGem, faShieldHalved, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 import { mika } from "../assets/icons";
 
 
 const Nav = () => {
   return (
-    <header className="px-10 py-10 border-r-[1px] border-slate-200 relative select-none">
+    <header className="w-[320px] px-10 py-10 border-r-[1px] border-slate-200 relative select-none">
       <Link to="/" >
         <div className="flex justify-start items-center gap-6">
           <img src={mika} alt="crescent ring icon" className="max-2xl:w-8"/>
           <h1 className="font-Kiaro text-md font-bold max-2xl:leading-5">
-            <span className="max-2xl:hidden text-lg">アクセ錬金シミュレーター</span>
-            <span className="2xl:hidden">アクセ錬金<br></br>シミュレーター</span>
+            <span className="max-sm:hidden text-lg">アクセ錬金シミュレーター</span>
           </h1>
           
         </div>
@@ -47,20 +45,6 @@ const Nav = () => {
 
         </ul>
       </nav>
-      {/* social */}
-      <div className="absolute bottom-[50px]">
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-2 items-center justify-around px-3 py-1 bg-slate-900 text-white rounded-full shadow-sm hover:bg-slate-700 duration-200">
-            <FontAwesomeIcon icon={faXTwitter} />
-            <a href="https://twitter.com/lejenay?ref_src=twsrc%5Etfw" data-show-count="false" target="_blank">@Lejenay</a>
-          </div>
-          <div className="flex gap-2 items-center justify-around px-3 py-1 bg-teal-600 text-white rounded-full shadow-sm hover:bg-teal-900 duration-200">
-            <FontAwesomeIcon icon={faGithub} />
-            <a href="https://github.com/Lejenay/acc-enhance-calc.git" target="_blank">GitHub</a>
-          </div>
-        </div>
-      </div>
-
     </header>
   )
 }

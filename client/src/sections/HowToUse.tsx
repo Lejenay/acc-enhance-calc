@@ -7,8 +7,8 @@ const HowToUse = () => {
           How to use
         </p>
       </div>
-      <div className="flex">
-        <div className="bg-slate-50 max-w-sm shadow-md rounded-lg px-10 py-5 relative font-Noto mx-10">
+      <div className="flex max-lg:flex-col gap-20 m-10">
+        <div className="bg-slate-50 max-w-sm shadow-md rounded-lg px-10 py-5 relative font-Noto">
           <div
             className="bg-teal-600 rounded-full w-14 h-14 shadow-md absolute left-5 top-[-20px] 
         flex items-center justify-center"
@@ -26,7 +26,7 @@ const HowToUse = () => {
           </div>
         </div>
 
-        <div className="bg-slate-50 max-w-sm shadow-md rounded-lg px-10 py-5 relative  font-Noto mx-10">
+        <div className="bg-slate-50 max-w-sm shadow-md rounded-lg px-10 py-5 relative  font-Noto">
           <div
             className="bg-slate-700 rounded-full w-14 h-14 shadow-md absolute left-5 top-[-20px] 
         flex items-center justify-center"
