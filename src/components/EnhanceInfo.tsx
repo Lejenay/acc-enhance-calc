@@ -30,7 +30,7 @@ const EnhanceInfo = () => {
   const { selectedSwitchOption } = useContext(SelectedSwitchOptionContext);
   const { selectedRgOption } = useContext(SelectedRgOptionContext)
 
-  const [selectedMainKey, setSelectedMainKey] = useState<number | undefined>(items[0].id)
+  const [selectedMainKey, setSelectedMainKey] = useState<number>(items[0].id)
   const [inputFs, setInputFs] = useState<number>(100)
   const [fsCost, setFsCost] = useState<number>(0)
   const [warningFs, setWarningFs] = useState<string>("")

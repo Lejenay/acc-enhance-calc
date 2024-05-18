@@ -1,4 +1,4 @@
-import { ItemData, fetchMarketData } from "../api/bdoMarketAPI";
+import { ItemData, fetchMarketData, Item } from "../api/bdoMarketAPI";
 import { otherEquipSuccessChanceCalc } from "../utils";
 import enhanceLevAndIndexMapper from "./Mapping/enhanceLevelIndexMapper";
 
@@ -19,8 +19,8 @@ interface itemUseCountForStack {
 
 const getMaterialPriceForStack = async (itemId: number): Promise<number> => {
   try {
-    const data: ItemData | undefined = await fetchMarketData(itemId);
-    return data ? data[0].basePrice : -1;
+    const data: Item | undefined = await fetchMarketData(itemId);
+    return data ? data.basePrice : -1;
   } catch (error) {
     console.error("Fetch error:", error);
     return -1;

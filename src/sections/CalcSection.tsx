@@ -1,6 +1,8 @@
 import { useState } from "react"
 
-import { EnhanceInfo, MyCombobox, MyDropdown, MyRadioGroup, MySwitch, HowToUse } from "../components"
+import {
+  EnhanceInfo, MyCombobox, MyDropdown, MyRadioGroup, MySwitch
+} from "../components"
 import { OptionsDd } from "../components/MyDropdown"
 import { OptionsCb } from "../components/MyCombobox"
 import { SelectedDdOptionContext } from "../contexts/SelectedDdOptionContext"
