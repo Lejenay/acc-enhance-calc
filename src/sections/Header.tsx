@@ -3,10 +3,7 @@ import { faXTwitter, faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const Header = () => {
   return (
-    <div className="w-[1120px] m-14 border-t-[1px] border-slate-200 px-3 py-14">
-    <div className="m-3">
-        <span className="text-lg">Social Links</span>
-    </div>
+    <div className="w-[1120px] m-14 border-t-[1px] border-slate-200 px-3 py-14 flex justify-end">
       <div className="flex flex-col gap-4">
         <div className="flex gap-2 items-center justify-around px-3 py-1 bg-slate-900 text-white rounded-full shadow-sm hover:bg-slate-700 duration-200 w-[120px]">
           <FontAwesomeIcon icon={faXTwitter} />

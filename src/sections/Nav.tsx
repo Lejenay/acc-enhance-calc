@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGem, faShieldHalved, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { faGem, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { mika } from "../assets/icons";
 
 
@@ -9,11 +9,11 @@ const Nav = () => {
     <header className="w-[320px] px-10 py-10 border-r-[1px] border-slate-200 relative select-none">
       <Link to="/" >
         <div className="flex justify-start items-center gap-6">
-          <img src={mika} alt="crescent ring icon" className="max-2xl:w-8"/>
+          <img src={mika} alt="crescent ring icon" className="max-2xl:w-8" />
           <h1 className="font-Kiaro text-md font-bold max-2xl:leading-5">
             <span className="max-sm:hidden text-lg">アクセ錬金シミュレーター</span>
           </h1>
-          
+
         </div>
       </Link>
       <nav>
@@ -32,14 +32,6 @@ const Nav = () => {
             <Link to="/how-to-use" >
               <FontAwesomeIcon icon={faCircleInfo} />
               <span className="ml-4">使い方</span>
-            </Link>
-          </li>
-
-          <li className="font-Kiaro text-slate-700 font-bold mt-6
-                  hover:text-teal-600 hover:duration-300">
-            <Link to="/privacy" >
-              <FontAwesomeIcon icon={faShieldHalved} />
-              <span className="ml-4">プライバシーポリシー</span>
             </Link>
           </li>
 
